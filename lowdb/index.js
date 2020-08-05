@@ -1,11 +1,21 @@
 const express = require("express");
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
+const bodyParser = require("body-parser");
 
 const app = express();
-const port = 3000;
 const jsonFile = new FileSync("db.json");
 const db = low(jsonFile);
+
+// process json data
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
+
+// root req
+app.get("/", (req, res) => {
+  res.send("Welcome to lowdb");
+});
 
 // Init
 app.get("/new", (req, res) => {
@@ -42,17 +52,40 @@ app.get("/user", (req, res) => {
 });
 
 /* ******* 
-Post method (url: https://website.com/login)
+Post method (url: https://localhost:3000/login)
  {
-    'email': 'my@mail.co',
-     'pass':'000callme000'
+    'userName': 'Kevin',
+     'pass':'call0me0maybe'
  }
 */
 app.post("/login", (req, res) => {
-  const userName = req.body.email;
+  const userName = req.body.userName;
   const userPass = req.body.pass;
+  if (userName === "Kevin" && userPass === call0me0maybe) {
+    res.status(200).send(`Welcome ${userName}`);
+  } else {
+    res.status(401).send(`invalid username or password`);
+  }
 });
 
-app.listen(port, () => {
-  console.log(`server listen on http://localhost:${port}`);
+// Remove
+app.get("/delete", async (req, res) => {
+  // for article (url ==> /delete?title=something)
+  const title = req.query.title;
+  await db.get("articles").remove({ title: title }).write();
+  res.status(200).send(`${title} has been removed`);
+
+  //for a property (url ==> /delete)
+  db.unset("user.name").write();
+  res.status(200).send("user.name has been removed");
+});
+
+app.get("/api", (req, res) => {
+  res.status(200).json({ id: 1, cityName: "Berlin", country: "DE" });
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`server listen on http://localhost:${PORT}`);
 });
