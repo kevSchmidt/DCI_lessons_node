@@ -11,8 +11,8 @@
 // Create one row                --> db.<collection-name>.insert({})
 // Create several rows           --> db.<collection-name>.insertMany{[{},{},{},]}
 // Show all rows in Collection   --> db.<collection-name>.find()
-// Find rows with Criteria       --> db.<collection-name>.find({ key: 'property' })
-// Delete row with Criteria      --> db.<collection-name>.remove({ key: 'property' })
+// Find rows with Criteria       --> db.<collection-name>.find({ key: property })
+// Delete row with Criteria      --> db.<collection-name>.remove({ key: property })
 // Sorting rows                  --> db.<collection-name>.find().sort({ key: property })
 
 // Make it pretty                --> db.users.find().pretty()
