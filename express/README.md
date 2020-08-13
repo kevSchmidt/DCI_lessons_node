@@ -1,2 +1,2 @@
 
-![](./img/express-logo.jpeg)
+![](./express-logo.jpeg)
