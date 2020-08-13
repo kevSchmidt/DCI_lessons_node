@@ -1,4 +1,4 @@
-// ========== MongoDB basic commands ===
+// =============== MongoDB basic commands ===
 
 // See all Databases             --> show dbs
 // Create new DB || Switch DB    --> use <name>
@@ -17,9 +17,10 @@
 
 // Make it pretty                --> db.users.find().pretty()
 
-// ========== Example ====
+// =============== Example ====
 
-// in terminal
+// To type in mango shell:
+
 use newTest
 db
 
