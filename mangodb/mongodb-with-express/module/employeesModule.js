@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-// ===== Mongoose Schema ===
+// ===== Schema ===
 const employeesDataSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -13,10 +13,18 @@ const employeesDataSchema = new mongoose.Schema({
   },
   address: String,
   employeeDate: {
-    type: String,
+    type: Date,
     required: true,
     default: Date.now,
   },
 });
 
-module.exports = mongoose.model("employeesData", employeesDataSchema);
+// ===== Create new collection ===
+// module.exports = mongoose.model("employeesData", employeesDataSchema);
+
+// ===== Specify a collection already existing ===
+module.exports = mongoose.model(
+  "employeesData",
+  employeesDataSchema,
+  "employeesData"
+);
