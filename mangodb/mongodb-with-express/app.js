@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
 
 const employeesRoute = require("./router/employeesRoute");
 
@@ -14,7 +15,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
 // ===== MongoDB ===
-const mongoose = require("mongoose");
 mongoose
   .connect(process.env.DB_URL, {
     useNewUrlParser: true,

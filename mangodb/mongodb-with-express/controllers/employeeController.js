@@ -1,5 +1,6 @@
 const EmployeesData = require("../module/employeesModule");
 
+// ===== Get employee ===
 async function getEmployee(req, res, next) {
   let employee;
   try {
@@ -16,6 +17,7 @@ async function getEmployee(req, res, next) {
   next();
 }
 
+// ===== Get address ===
 async function getAddress(req, res, next) {
   let employee;
   try {
