@@ -9,6 +9,8 @@ const app = express();
 
 app.use(morgan("dev"));
 
+app.use(express.json());
+
 // ===== Process json data ===
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -24,8 +26,6 @@ mongoose
   .catch((error) => {
     console.log(`There was a problem: ${error.message}`);
   });
-
-app.use(express.json());
 
 // ===== Routes ===
 app.use("/employees", employeesRoute);
