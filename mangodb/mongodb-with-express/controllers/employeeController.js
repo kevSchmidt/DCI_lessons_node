@@ -54,7 +54,7 @@ const addEmployee = async (req, res) => {
   const employee = new EmployeesData({
     name: req.body.name,
     age: req.body.age,
-    add: req.body.address,
+    address: req.body.address,
   });
 
   try {
