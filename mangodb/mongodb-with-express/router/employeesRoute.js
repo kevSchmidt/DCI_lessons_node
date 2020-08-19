@@ -1,30 +1,36 @@
 const express = require("express");
 
 const {
+  getEmployeeByName,
+  getEmployeeByAddress,
   getEmployee,
-  getAddress,
-  getAllEmployee,
-  addNewEmployee,
-  getOneEmployee,
-  updateOneEmployee,
-  deleteOneEmployee,
+  getAllEmployees,
+  addEmployee,
+  deleteEmployee,
+  updatePartlyEmployee,
+  updateCompletelyEmployee,
+  updateManyEmployeesAddresses,
 } = require("../controllers/employeeController");
 
 const router = express.Router();
 
-// ===== homepage ===
-router.route("/").get(getAllEmployee).post(addNewEmployee);
+// ===== homepage route ===
+router.route("/").get(getAllEmployees).post(addEmployee);
 
-// ===== name ===
+// ===== name route ===
 router
   .route("/:name")
-  .get(getEmployee, getOneEmployee)
-  .patch(getEmployee, updateOneEmployee)
-  .delete(getEmployee, deleteOneEmployee);
+  .get(getEmployeeByName, getEmployee)
+  .patch(getEmployeeByName, updatePartlyEmployee)
+  .put(getEmployeeByName, updateCompletelyEmployee)
+  .delete(getEmployeeByName, deleteEmployee);
 
-// ===== address ===
-router.get("/search/:address", getAddress, (req, res) => {
+// ===== address route ===
+router.get("/:address", getEmployeeByAddress, (req, res) => {
   res.status(200).json(res.employee);
 });
+
+// ===== update route ===
+router.put("/:update", getEmployeeByAddress, updateManyEmployeesAddresses);
 
 module.exports = router;
