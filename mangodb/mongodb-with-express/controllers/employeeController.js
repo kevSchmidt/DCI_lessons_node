@@ -94,7 +94,9 @@ const updatePartlyEmployee = async (req, res) => {
 
   try {
     await res.employee.save();
-    res.status(200).json({ message: "Employee Updated", data: res.employee });
+    res
+      .status(200)
+      .json({ message: "Employee partly updated!", data: res.employee });
   } catch (err) {
     res.status(400).json({
       message: err.message,
@@ -115,7 +117,7 @@ const updateCompletelyEmployee = async (req, res) => {
         },
       }
     );
-    res.status(200).json({ message: "Employee updated" });
+    res.status(200).json({ message: "Employee completely updated!" });
   } catch (err) {
     res.status(400).json({
       message: err.message,
@@ -123,17 +125,21 @@ const updateCompletelyEmployee = async (req, res) => {
   }
 };
 
-// ===== Update many employees addresses ===
-const updateManyEmployeesAddresses = async (req, res) => {
+// ===== Update many employees ===
+const updateManyEmployees = async (req, res) => {
   try {
     await EmployeesData.updateMany(
-      { address: req.params.address },
+      { name: req.params.name },
       {
-        $set: { address: req.body.address },
+        $set: {
+          name: req.body.name,
+          age: req.body.age,
+          address: req.body.address,
+        },
       }
     );
     res.status(200).json({
-      message: "Employees addresses were updated with success!",
+      message: "Employee(s) were updated with success!",
     });
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -149,5 +155,5 @@ module.exports = {
   deleteEmployee,
   updatePartlyEmployee,
   updateCompletelyEmployee,
-  updateManyEmployeesAddresses,
+  updateManyEmployees,
 };

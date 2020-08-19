@@ -9,7 +9,7 @@ const {
   deleteEmployee,
   updatePartlyEmployee,
   updateCompletelyEmployee,
-  updateManyEmployeesAddresses,
+  updateManyEmployees,
 } = require("../controllers/employeeController");
 
 const router = express.Router();
@@ -31,6 +31,6 @@ router.get("/:address", getEmployeeByAddress, (req, res) => {
 });
 
 // ===== update route ===
-router.put("/:update", getEmployeeByAddress, updateManyEmployeesAddresses);
+router.put("/:update", getEmployeeByName, updateManyEmployees);
 
 module.exports = router;
