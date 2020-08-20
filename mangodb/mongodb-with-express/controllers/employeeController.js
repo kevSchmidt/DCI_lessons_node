@@ -42,8 +42,21 @@ const getEmployee = (req, res) => {
 // ===== Get all employees ===
 const getAllEmployees = async (req, res) => {
   try {
-    const employees = await EmployeesData.find();
-    res.status(200).json(employees);
+    const employees = await EmployeesData.find().select("name age");
+    res.status(200).json(
+      employees.map((employee) => {
+        // change view
+        return {
+          employeeId: employee._id,
+          employee_Name: employee.name,
+          employee_Age: employee.age,
+          request: {
+            type: "GET",
+            url: `http://lovalhost:3000/employees/${employeeName}`,
+          },
+        };
+      })
+    );
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -107,13 +120,16 @@ const updatePartlyEmployee = async (req, res) => {
 // ===== Update completely an employee (put method) ===
 const updateCompletelyEmployee = async (req, res) => {
   try {
-    await EmployeesData.update(
+    await EmployeesData.updateOne(
       { name: req.params.name },
       {
         $set: {
           name: req.body.name,
           age: req.body.age,
           address: req.body.address,
+        },
+        $currentDate: {
+          employeeDate: Date.now,
         },
       }
     );

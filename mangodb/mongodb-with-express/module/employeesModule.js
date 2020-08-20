@@ -4,12 +4,12 @@ const mongoose = require("mongoose");
 const employeesDataSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    required: [true, `You have to enter a name.`],
     trim: true,
   },
   age: {
     type: Number,
-    required: true,
+    required: [true, `You have to enter an age.`],
   },
   address: String,
   employeeDate: {
