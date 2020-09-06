@@ -1,4 +1,4 @@
-const EmployeesData = require("../module/employeesModule");
+const EmployeesData = require("../model/employeesModel");
 
 // ===== Get employee by name ===
 const getEmployeeByName = async (req, res, next) => {
