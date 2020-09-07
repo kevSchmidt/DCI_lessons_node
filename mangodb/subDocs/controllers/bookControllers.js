@@ -39,12 +39,15 @@ const deleteOneAuthor = async (req, res) => {
 // ======== ADD one ===
 const addOneAuthor = async (req, res) => {
   console.log(req.body.books);
+
   const author = new authorModel({
     authorName: req.body.name,
   });
+
   req.body.books.map((book) =>
     author.books.push({ title: book.title, issueYear: book.year })
   );
+
   try {
     const newAuthor = await author.save();
     res.status(201).json(newAuthor);
