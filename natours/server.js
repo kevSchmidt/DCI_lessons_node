@@ -10,6 +10,7 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
+// ======== MongoDB ===
 mongoose
   .connect(DB, {
     useUnifiedTopology: true,
@@ -19,6 +20,7 @@ mongoose
   })
   .then(() => console.log('DB connection successful!'));
 
+// ======== Start Server ===
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);

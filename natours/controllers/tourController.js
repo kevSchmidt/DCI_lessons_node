@@ -20,7 +20,6 @@ exports.getAllTours = async (req, res) => {
       .paginate();
     const tours = await features.query;
 
-    // ---- Send Response ----
     res.status(200).json({
       status: 'success',
       results: tours.length,
@@ -116,11 +115,14 @@ exports.deleteTour = async (req, res) => {
 // ======== Tour Stats ===
 exports.getTourStats = async (req, res) => {
   try {
+    // ---- Statistics Aggregation ----
     const stats = await Tour.aggregate([
       {
+        // match results with ratings average >= 4.5
         $match: { ratingsAverage: { $gte: 4.5 } },
       },
       {
+        // group document together using accumulators
         $group: {
           _id: { $toUpper: '$difficulty' },
           numTours: { $sum: 1 },
@@ -132,6 +134,7 @@ exports.getTourStats = async (req, res) => {
         },
       },
       {
+        // sort results by average price (descending)
         $sort: { avgPrice: 1 },
       },
     ]);
@@ -154,11 +157,14 @@ exports.getMonthlyPlan = async (req, res) => {
   try {
     const year = req.params.year * 1;
 
+    // ---- Planning Aggregation ----
     const plan = await Tour.aggregate([
       {
+        // deconstruct an array field from the input documents and output one document for each element of the array
         $unwind: '$startDates',
       },
       {
+        // match results from the year selected
         $match: {
           startDates: {
             $gte: new Date(`${year}-01-01`),
@@ -167,6 +173,7 @@ exports.getMonthlyPlan = async (req, res) => {
         },
       },
       {
+        // group results by month and number of tours
         $group: {
           _id: { $month: '$startDates' },
           numTourStarts: { $sum: 1 },
@@ -174,17 +181,21 @@ exports.getMonthlyPlan = async (req, res) => {
         },
       },
       {
+        // create a new field
         $addFields: { month: '$_id' },
       },
       {
+        // hide the id with value 0
         $project: {
           _id: 0,
         },
       },
       {
+        // sort by the number of tours (ascending)
         $sort: { numTourStarts: -1 },
       },
       {
+        // results limited to 12
         $limit: 12,
       },
     ]);
