@@ -122,7 +122,7 @@ exports.getTourStats = async (req, res) => {
         $match: { ratingsAverage: { $gte: 4.5 } },
       },
       {
-        // group document together using accumulators
+        // group documents together using accumulators
         $group: {
           _id: { $toUpper: '$difficulty' },
           numTours: { $sum: 1 },
