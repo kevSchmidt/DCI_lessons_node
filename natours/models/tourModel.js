@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const validator = require('validator');
 
 // ======== Tour Schema ===
 const tourSchema = new mongoose.Schema(
@@ -7,9 +8,12 @@ const tourSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, 'A tour must have a name'],
       unique: true,
       trim: true,
+      // built-in validator
+      required: [true, 'A tour must have a name'],
+      maxlength: [40, 'A tour name must have less than 40 characters'],
+      minlength: [10, 'A tour name must have more than 10 characters'],
     },
     slug: String,
     duration: {
@@ -23,10 +27,20 @@ const tourSchema = new mongoose.Schema(
     difficulty: {
       type: String,
       required: [true, 'A tour must have a difficulty'],
+      // built-in validator
+      enum: {
+        values: ['easy', 'medium', 'difficult'],
+        message: 'Difficulty is either: easy, medium or difficult',
+      },
+      // validator package
+      validate: [validator.isAlpha, 'Difficulty must only contains characters'],
     },
     ratingsAverage: {
       type: Number,
       default: 4.5,
+      // built-in validator
+      min: [1, 'Ratings must be above 1.0'],
+      max: [1, 'Ratings must be below 5.0'],
     },
     ratingsQuantity: {
       type: Number,
@@ -36,7 +50,17 @@ const tourSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'A tour must have a price'],
     },
-    priceDiscount: Number,
+    priceDiscount: {
+      type: Number,
+      // custom validator
+      validate: {
+        validator: function (val) {
+          // <this> points to current doc on NEW document creation
+          return val < this.price;
+        },
+        message: 'Discount price ({VALUE}) should be below the regular one',
+      },
+    },
     summary: {
       type: String,
       trim: true,
@@ -76,7 +100,7 @@ tourSchema.virtual('durationWeeks').get(function () {
 });
 
 // ======== Document Middleware ===
-// runs before .save() and add a slugify string property.
+// runs before .save() and .create(): add a slugify string property.
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
