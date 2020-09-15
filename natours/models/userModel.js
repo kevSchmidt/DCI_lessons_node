@@ -13,8 +13,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please provide an email'],
     unique: true,
     lowercase: true,
-    // validator package
-    validate: [validator.isEmail, 'Please provide a valid email'],
+    validate: [validator.isEmail, 'Please provide a valid email'], // validator package
   },
   photo: String,
   password: {
@@ -26,7 +25,6 @@ const userSchema = new mongoose.Schema({
   passwordConfirm: {
     type: String,
     required: [true, 'Please confirm your password'],
-    // custom validator
     validate: {
       // only on SAVE and CREATE: compare password & confirmed password
       validator: function (el) {

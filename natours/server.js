@@ -6,7 +6,8 @@ process.on('uncaughtException', (err) => {
   console.log(err.name, err.message);
   console.log('UNCAUGHT EXCEPTION! Shutting down...');
   process.exit(1); // exit the application
-  // an other service should restart the app HERE.
+
+  // **HERE**: an other service should restart the app.
 });
 // ---- Error trigger ----
 // console.log(x);

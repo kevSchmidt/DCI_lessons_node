@@ -1,7 +1,7 @@
 const Tour = require('../models/tourModel');
 const APIFeatures = require('../utils/apiFeatures');
-const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const catchAsync = require('../utils/catchAsync');
 
 // ======== Aliasing Middleware ===
 exports.aliasTopTours = (req, res, next) => {
@@ -13,7 +13,7 @@ exports.aliasTopTours = (req, res, next) => {
 
 // ======== Get All Tours ===
 exports.getAllTours = catchAsync(async (req, res, next) => {
-  // execute query
+  // ---- execute query ----
   const features = new APIFeatures(Tour.find(), req.query)
     .filter()
     .sort()
@@ -34,7 +34,6 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
 exports.getTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id);
 
-  // send error if no tour found
   if (!tour) {
     return next(new AppError('No tour found with that ID', 404));
   }
