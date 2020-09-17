@@ -11,7 +11,7 @@
 8. [zlib](https://node.readthedocs.io/en/latest/api/zlib/)
 9. [publish-your-own-npm](https://zellwk.com/blog/publish-to-npm/)
 
-# DATA SERVER 
+# Data Server 
 
 1. [HTTP response status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
 2. [HTTP request methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)
